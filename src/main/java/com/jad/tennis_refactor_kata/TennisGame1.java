@@ -26,16 +26,16 @@ public class TennisGame1 implements TennisGame {
 
     @Override
     public String getScore() {
-        if (this.arePointsEquals()) {
+        if (this.doesPlayersHaveSamePoints()) {
             return this.getEqualScore();
         }
         if (this.isAdvantageRuleApply()) {
             return this.getAdvantageRuleScore();
         }
-        return this.getNormalScore();
+        return this.getRunningScore();
     }
 
-    private boolean arePointsEquals() {
+    private boolean doesPlayersHaveSamePoints() {
         return this.pointsPlayer1 == this.pointsPlayer2;
     }
 
@@ -58,7 +58,7 @@ public class TennisGame1 implements TennisGame {
         return "Win for " + this.getPlayerNameWhoHasMorePoints();
     }
 
-    private String getNormalScore() {
+    private String getRunningScore() {
         return TennisGame1.pointsToScore(this.pointsPlayer1)
                 + "-"
                 + TennisGame1.pointsToScore(this.pointsPlayer2);
