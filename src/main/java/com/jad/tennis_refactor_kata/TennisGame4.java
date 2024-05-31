@@ -53,22 +53,6 @@ public class TennisGame4 implements TennisGame {
         return result.format();
     }
 
-    boolean receiverHasAdvantage() {
-        return this.receiverScore >= 4 && (this.receiverScore - this.serverScore) == 1;
-    }
-
-    boolean serverHasAdvantage() {
-        return this.serverScore >= 4 && (this.serverScore - this.receiverScore) == 1;
-    }
-
-    boolean receiverHasWon() {
-        return this.receiverScore >= 4 && (this.receiverScore - this.serverScore) >= 2;
-    }
-
-    boolean serverHasWon() {
-        return this.serverScore >= 4 && (this.serverScore - this.receiverScore) >= 2;
-    }
-
 
 }
 
@@ -125,10 +109,14 @@ class GameServer implements ResultProvider {
 
     @Override
     public TennisResult getResult() {
-        if (this.game.serverHasWon()) {
+        if (this.isServerGameWinner()) {
             return new TennisResult("Win for " + this.game.getServerName(), "");
         }
         return this.nextResult.getResult();
+    }
+
+    private boolean isServerGameWinner() {
+        return this.game.getServerScore() >= 4 && (this.game.getServerScore() - this.game.getReceiverScore()) >= 2;
     }
 }
 
@@ -143,10 +131,14 @@ class GameReceiver implements ResultProvider {
 
     @Override
     public TennisResult getResult() {
-        if (this.game.receiverHasWon()) {
+        if (this.isServerGameWinner()) {
             return new TennisResult("Win for " + this.game.getReceiverName(), "");
         }
         return this.nextResult.getResult();
+    }
+
+    private boolean isServerGameWinner() {
+        return this.game.getReceiverScore() >= 4 && (this.game.getReceiverScore() - this.game.getServerScore()) >= 2;
     }
 }
 
@@ -161,10 +153,14 @@ class AdvantageServer implements ResultProvider {
 
     @Override
     public TennisResult getResult() {
-        if (this.game.serverHasAdvantage()) {
+        if (this.doesServerHaveAdvantage()) {
             return new TennisResult("Advantage " + this.game.getServerName(), "");
         }
         return this.nextResult.getResult();
+    }
+
+    private boolean doesServerHaveAdvantage() {
+        return this.game.getServerScore() >= 4 && (this.game.getServerScore() - this.game.getReceiverScore()) == 1;
     }
 }
 
@@ -180,10 +176,14 @@ class AdvantageReceiver implements ResultProvider {
 
     @Override
     public TennisResult getResult() {
-        if (this.game.receiverHasAdvantage()) {
+        if (this.doesReceiverHaveAdvantage()) {
             return new TennisResult("Advantage " + this.game.getReceiverName(), "");
         }
         return this.nextResult.getResult();
+    }
+
+    private boolean doesReceiverHaveAdvantage() {
+        return this.game.getReceiverScore() >= 4 && (this.game.getReceiverScore() - this.game.getServerScore()) == 1;
     }
 }
 
