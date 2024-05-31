@@ -74,17 +74,7 @@ public class TennisGame2 implements TennisGame {
     }
 
     private String getEqualScore() {
-        String score = "";
-        if (this.player1Points == 0) {
-            score = "Love";
-        }
-        if (this.player1Points == 1) {
-            score = "Fifteen";
-        }
-        if (this.player1Points == 2) {
-            score = "Thirty";
-        }
-        score += "-All";
+        String score = this.player1Score + "-All";
         if (this.player1Points >= 3) {
             score = "Deuce";
         }
