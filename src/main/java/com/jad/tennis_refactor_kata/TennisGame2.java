@@ -15,9 +15,10 @@ public class TennisGame2 implements TennisGame {
     }
 
     public void wonPoint(String playerName) {
-        if (playerName == "player1") {
+        if (playerName.equals(this.player1Name)) {
             this.incrementPlayer1Points();
-        } else {
+        }
+        if (playerName.equals(this.player2Name)) {
             this.incrementPlayer2Points();
         }
     }
