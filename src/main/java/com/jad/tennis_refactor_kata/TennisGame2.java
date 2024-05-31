@@ -26,7 +26,8 @@ public class TennisGame2 implements TennisGame {
     public String getScore() {
         String score = "";
 
-        this.generatePlayersScores();
+        this.player1Score = TennisGame2.getPlayerScoreFromPoints(this.player1Points);
+        this.player2Score = TennisGame2.getPlayerScoreFromPoints(this.player2Points);
 
         if (this.isPlayersPointsEqual()) {
             score = this.getEqualScore();
@@ -39,7 +40,6 @@ public class TennisGame2 implements TennisGame {
         if (this.doesPlayer1HaveAdvantage()) {
             score = "Advantage player1";
         }
-
         if (this.doesPlayer2HaveAdvantage()) {
             score = "Advantage player2";
         }
@@ -53,31 +53,20 @@ public class TennisGame2 implements TennisGame {
         return score;
     }
 
-    private void generatePlayersScores() {
-        this.player1Score = "Love";
-        this.player2Score = "Love";
-        if (this.player1Points > 0) {
-            if (this.player1Points == 1) {
-                this.player1Score = "Fifteen";
+    private static String getPlayerScoreFromPoints(int playerPoints) {
+        String playerScore = "Love";
+        if (playerPoints > 0) {
+            if (playerPoints == 1) {
+                playerScore = "Fifteen";
             }
-            if (this.player1Points == 2) {
-                this.player1Score = "Thirty";
+            if (playerPoints == 2) {
+                playerScore = "Thirty";
             }
-            if (this.player1Points == 3) {
-                this.player1Score = "Forty";
-            }
-        }
-        if (this.player2Points > 0) {
-            if (this.player2Points == 1) {
-                this.player2Score = "Fifteen";
-            }
-            if (this.player2Points == 2) {
-                this.player2Score = "Thirty";
-            }
-            if (this.player2Points == 3) {
-                this.player2Score = "Forty";
+            if (playerPoints == 3) {
+                playerScore = "Forty";
             }
         }
+        return playerScore;
     }
 
     private boolean isPlayersPointsEqual() {
