@@ -7,10 +7,8 @@ public class TennisGame2 implements TennisGame {
 
     private final String player1Name;
     private final String player2Name;
-    public int player1Points = 0;
-    public int player2Points = 0;
-    public String player1Score = "";
-    public String player2Score = "";
+    private int player1Points = 0;
+    private int player2Points = 0;
 
     public TennisGame2(String player1Name, String player2Name) {
         this.player1Name = player1Name;
@@ -27,27 +25,18 @@ public class TennisGame2 implements TennisGame {
     }
 
     public String getScore() {
-        String score = "";
-
-        this.player1Score = PointsScore.getPlayerScoreFromPoints(this.player1Points);
-        this.player2Score = PointsScore.getPlayerScoreFromPoints(this.player2Points);
-
         if (this.isPlayersPointsEqual()) {
-            score = this.getEqualScore();
+            return this.getEqualScore();
         }
-
-        if (this.doesPlayerHaveMorePoints()) {
-            score = this.player1Score + "-" + this.player2Score;
-        }
-
-        if (this.doesAPlayerHaveAdvantage()) {
-            score = TennisGame2.ADVANTAGE_TEXT + " " + this.getPlayerNameWhoHasMorePoints();
-        }
-
         if (this.isAPlayerWinner()) {
-            score = TennisGame2.WIN_TEXT + " " + this.getPlayerNameWhoHasMorePoints();
+            return TennisGame2.WIN_TEXT + " " + this.getPlayerNameWhoHasMorePoints();
         }
-        return score;
+        if (this.doesAPlayerHaveAdvantage()) {
+            return TennisGame2.ADVANTAGE_TEXT + " " + this.getPlayerNameWhoHasMorePoints();
+        }
+        return PointsScore.getPlayerScoreFromPoints(this.player1Points)
+                + "-"
+                + PointsScore.getPlayerScoreFromPoints(this.player2Points);
     }
 
     private boolean isPlayersPointsEqual() {
@@ -55,19 +44,16 @@ public class TennisGame2 implements TennisGame {
     }
 
     private String getEqualScore() {
-        String score = this.player1Score + "-All";
+        String score = PointsScore.getPlayerScoreFromPoints(this.player1Points) + "-All";
         if (this.player1Points >= 3) {
             score = "Deuce";
         }
         return score;
     }
 
-    private boolean doesPlayerHaveMorePoints() {
-        return this.player1Points - this.player2Points != 0;
-    }
-
-    private boolean doesAPlayerHaveAdvantage() {
-        return (this.player1Points != this.player2Points) && (this.player1Points > 3 || (this.player2Points > 3));
+    private boolean isAPlayerWinner() {
+        return (this.player1Points >= 4 || this.player2Points >= 4)
+                && Math.abs(this.player1Points - this.player2Points) >= 2;
     }
 
     private String getPlayerNameWhoHasMorePoints() {
@@ -77,9 +63,8 @@ public class TennisGame2 implements TennisGame {
         return this.player2Name;
     }
 
-    private boolean isAPlayerWinner() {
-        return (this.player1Points >= 4 || this.player2Points >= 4)
-                && Math.abs(this.player1Points - this.player2Points) >= 2;
+    private boolean doesAPlayerHaveAdvantage() {
+        return (this.player1Points != this.player2Points) && (this.player1Points > 3 || (this.player2Points > 3));
     }
 
     enum PointsScore {
