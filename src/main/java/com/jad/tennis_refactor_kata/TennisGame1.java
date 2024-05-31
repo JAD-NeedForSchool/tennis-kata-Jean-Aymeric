@@ -17,23 +17,26 @@ public class TennisGame1 implements TennisGame {
     @Override
     public void wonPoint(String playerName) {
         if (this.player1Name.equals(playerName)) {
-            this.pointsPlayer1 += 1;
+            this.pointsPlayer1++;
         }
         if (this.player2Name.equals(playerName)) {
-            this.pointsPlayer2 += 1;
+            this.pointsPlayer2++;
         }
     }
 
     @Override
     public String getScore() {
-        if (this.pointsPlayer1 == this.pointsPlayer2) {
+        if (this.arePointsEquals()) {
             return this.getEqualScore();
         }
-        if (this.pointsPlayer1 > TennisGame1.POINTS_LIMIT_BEFORE_ADVANTAGE_RULE
-                || this.pointsPlayer2 > TennisGame1.POINTS_LIMIT_BEFORE_ADVANTAGE_RULE) {
-            return this.getAboveAdvantageScore();
+        if (this.isAdvantageRuleApply()) {
+            return this.getAdvantageRuleScore();
         }
-        return this.getLessThanAdvantageScore();
+        return this.getNormalScore();
+    }
+
+    private boolean arePointsEquals() {
+        return this.pointsPlayer1 == this.pointsPlayer2;
     }
 
     private String getEqualScore() {
@@ -43,14 +46,19 @@ public class TennisGame1 implements TennisGame {
         return "Deuce";
     }
 
-    private String getAboveAdvantageScore() {
+    private boolean isAdvantageRuleApply() {
+        return this.pointsPlayer1 > TennisGame1.POINTS_LIMIT_BEFORE_ADVANTAGE_RULE
+                || this.pointsPlayer2 > TennisGame1.POINTS_LIMIT_BEFORE_ADVANTAGE_RULE;
+    }
+
+    private String getAdvantageRuleScore() {
         if (this.isOnePlayerHasAdvantage()) {
             return "Advantage " + this.getPlayerNameWhoHasMorePoints();
         }
         return "Win for " + this.getPlayerNameWhoHasMorePoints();
     }
 
-    private String getLessThanAdvantageScore() {
+    private String getNormalScore() {
         return TennisGame1.pointsToScore(this.pointsPlayer1)
                 + "-"
                 + TennisGame1.pointsToScore(this.pointsPlayer2);
