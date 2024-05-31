@@ -33,7 +33,7 @@ public class TennisGame2 implements TennisGame {
 
     public String getScore() {
         String score = "";
-        if (this.player1Points == this.player2Points && this.player1Points < 4) {
+        if (this.player1Points == this.player2Points && this.player1Points <= 3) {
             if (this.player1Points == 0) {
                 score = "Love";
             }
@@ -78,7 +78,7 @@ public class TennisGame2 implements TennisGame {
             score = this.player1Score + "-" + this.player2Score;
         }
 
-        if (this.player1Points > this.player2Points && this.player1Points < 4) {
+        if (this.player1Points > this.player2Points && this.player1Points <= 3) {
             if (this.player1Points == 2) {
                 this.player1Score = "Thirty";
             }
@@ -93,7 +93,7 @@ public class TennisGame2 implements TennisGame {
             }
             score = this.player1Score + "-" + this.player2Score;
         }
-        if (this.player2Points > this.player1Points && this.player2Points < 4) {
+        if (this.player2Points > this.player1Points && this.player2Points <= 3) {
             if (this.player2Points == 2) {
                 this.player2Score = "Thirty";
             }
