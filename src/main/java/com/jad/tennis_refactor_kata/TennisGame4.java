@@ -13,22 +13,6 @@ public class TennisGame4 implements TennisGame {
         this.receiverName = receiverName;
     }
 
-    public int getServerScore() {
-        return this.serverScore;
-    }
-
-    public int getReceiverScore() {
-        return this.receiverScore;
-    }
-
-    public String getServerName() {
-        return this.serverName;
-    }
-
-    public String getReceiverName() {
-        return this.receiverName;
-    }
-
     @Override
     public void wonPoint(String playerName) {
         if (this.serverName.equals(playerName)) {
@@ -44,5 +28,20 @@ public class TennisGame4 implements TennisGame {
         return TennisResultProvider.provide(this);
     }
 
+    public int getServerScore() {
+        return this.serverScore;
+    }
+
+    public int getReceiverScore() {
+        return this.receiverScore;
+    }
+
+    public String getServerName() {
+        return this.serverName;
+    }
+
+    public String getReceiverName() {
+        return this.receiverName;
+    }
 }
 

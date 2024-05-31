@@ -37,19 +37,19 @@ public abstract class TennisResultProvider implements ResultProvider {
 
     protected abstract TennisResult provide();
 
-    protected int getServerScore() {
+    final protected int getServerScore() {
         return this.game.getServerScore();
     }
 
-    protected int getReceiverScore() {
+    final protected int getReceiverScore() {
         return this.game.getReceiverScore();
     }
 
-    protected String getServerName() {
+    final protected String getServerName() {
         return this.game.getServerName();
     }
 
-    protected String getReceiverName() {
+    final protected String getReceiverName() {
         return this.game.getReceiverName();
     }
 }
