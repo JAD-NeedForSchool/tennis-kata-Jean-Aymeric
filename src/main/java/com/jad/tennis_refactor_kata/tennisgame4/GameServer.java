@@ -10,11 +10,11 @@ class GameServer extends TennisResultProvider {
 
     @Override
     protected boolean isProvided() {
-        return this.game.getServerScore() >= 4 && (this.game.getServerScore() - this.game.getReceiverScore()) >= 2;
+        return this.getServerScore() >= 4 && (this.getServerScore() - this.getReceiverScore()) >= 2;
     }
 
     @Override
     protected TennisResult provide() {
-        return new TennisResult("Win for " + this.game.getServerName(), "");
+        return new TennisResult("Win for " + this.getServerName(), "");
     }
 }

@@ -3,16 +3,16 @@ package com.jad.tennis_refactor_kata.tennisgame4;
 import com.jad.tennis_refactor_kata.TennisGame4;
 
 public abstract class TennisResultProvider implements ResultProvider {
-    protected final TennisGame4 game;
+    private final TennisGame4 game;
     private final ResultProvider nextResult;
 
-    public TennisResultProvider(TennisGame4 game, ResultProvider nextResult) {
+    TennisResultProvider(TennisGame4 game, ResultProvider nextResult) {
         this.game = game;
         this.nextResult = nextResult;
     }
 
     public static String provide(final TennisGame4 game) {
-        TennisResult result = new Deuce(
+        ITennisResult result = new Deuce(
                 game, new GameServer(
                 game, new GameReceiver(
                 game, new AdvantageServer(
@@ -22,18 +22,34 @@ public abstract class TennisResultProvider implements ResultProvider {
     }
 
     @Override
-    final public TennisResult getResult() {
+    final public ITennisResult getResult() {
         if (this.isProvided()) {
             return this.provide();
         }
         return this.nextResult.getResult();
     }
 
-    public static String getFormattedResult(TennisResult result) {
+    public static String getFormattedResult(ITennisResult result) {
         return result.format();
     }
 
     protected abstract boolean isProvided();
 
     protected abstract TennisResult provide();
+
+    protected int getServerScore() {
+        return this.game.getServerScore();
+    }
+
+    protected int getReceiverScore() {
+        return this.game.getReceiverScore();
+    }
+
+    protected String getServerName() {
+        return this.game.getServerName();
+    }
+
+    protected String getReceiverName() {
+        return this.game.getReceiverName();
+    }
 }

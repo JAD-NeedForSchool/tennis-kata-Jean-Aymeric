@@ -9,11 +9,12 @@ class AdvantageReceiver extends TennisResultProvider {
 
     @Override
     protected boolean isProvided() {
-        return this.game.getReceiverScore() >= 4 && (this.game.getReceiverScore() - this.game.getServerScore()) == 1;
+        return this.getReceiverScore() >= 4 && (this.getReceiverScore() - this.getServerScore()) == 1;
     }
+
 
     @Override
     protected TennisResult provide() {
-        return new TennisResult("Advantage " + this.game.getReceiverName(), "");
+        return new TennisResult("Advantage " + this.getReceiverName(), "");
     }
 }

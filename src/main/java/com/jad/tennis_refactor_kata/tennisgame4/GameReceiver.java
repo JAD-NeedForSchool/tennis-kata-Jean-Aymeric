@@ -9,11 +9,12 @@ class GameReceiver extends TennisResultProvider {
 
     @Override
     protected boolean isProvided() {
-        return this.game.getReceiverScore() >= 4 && (this.game.getReceiverScore() - this.game.getServerScore()) >= 2;
+        return this.getReceiverScore() >= 4 && (this.getReceiverScore() - this.getServerScore()) >= 2;
     }
 
     @Override
     protected TennisResult provide() {
-        return new TennisResult("Win for " + this.game.getReceiverName(), "");
+        return new TennisResult("Win for " + this.getReceiverName(), "");
     }
+
 }

@@ -17,7 +17,7 @@ class DefaultResult extends TennisResultProvider {
 
     @Override
     protected TennisResult provide() {
-        return new TennisResult(DefaultResult.scores[this.game.getServerScore()],
-                                DefaultResult.scores[this.game.getReceiverScore()]);
+        return new TennisResult(DefaultResult.scores[this.getServerScore()],
+                                DefaultResult.scores[this.getReceiverScore()]);
     }
 }
