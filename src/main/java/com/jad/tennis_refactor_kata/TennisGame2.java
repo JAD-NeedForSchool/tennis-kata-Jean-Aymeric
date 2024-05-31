@@ -2,143 +2,116 @@ package com.jad.tennis_refactor_kata;
 
 
 public class TennisGame2 implements TennisGame {
-    public int P1point = 0;
-    public int P2point = 0;
-
-    public String P1res = "";
-    public String P2res = "";
-    private String player1Name;
-    private String player2Name;
+    private final String player1Name;
+    private final String player2Name;
+    public int player1Points = 0;
+    public int player2Points = 0;
+    public String player1Score = "";
+    public String player2Score = "";
 
     public TennisGame2(String player1Name, String player2Name) {
         this.player1Name = player1Name;
         this.player2Name = player2Name;
     }
 
-    public void SetP1Score(int number) {
-
-        for (int i = 0; i < number; i++) {
-            P1Score();
+    public void wonPoint(String playerName) {
+        if (playerName.equals(this.player1Name)) {
+            this.player1Points++;
         }
-
-    }
-
-    public void P1Score() {
-        P1point++;
-    }
-
-    public void SetP2Score(int number) {
-
-        for (int i = 0; i < number; i++) {
-            P2Score();
-        }
-
-    }
-
-    public void P2Score() {
-        P2point++;
-    }
-
-    public void wonPoint(String player) {
-        if (player == "player1") {
-            P1Score();
-        } else {
-            P2Score();
+        if (playerName.equals(this.player2Name)) {
+            this.player2Points++;
         }
     }
 
     public String getScore() {
         String score = "";
-        if (P1point == P2point && P1point < 4) {
-            if (P1point == 0) {
-                score = "Love";
-            }
-            if (P1point == 1) {
-                score = "Fifteen";
-            }
-            if (P1point == 2) {
-                score = "Thirty";
-            }
-            score += "-All";
-        }
-        if (P1point == P2point && P1point >= 3) {
-            score = "Deuce";
+
+        this.player1Score = TennisGame2.getPlayerScoreFromPoints(this.player1Points);
+        this.player2Score = TennisGame2.getPlayerScoreFromPoints(this.player2Points);
+
+        if (this.isPlayersPointsEqual()) {
+            score = this.getEqualScore();
         }
 
-        if (P1point > 0 && P2point == 0) {
-            if (P1point == 1) {
-                P1res = "Fifteen";
-            }
-            if (P1point == 2) {
-                P1res = "Thirty";
-            }
-            if (P1point == 3) {
-                P1res = "Forty";
-            }
-
-            P2res = "Love";
-            score = P1res + "-" + P2res;
-        }
-        if (P2point > 0 && P1point == 0) {
-            if (P2point == 1) {
-                P2res = "Fifteen";
-            }
-            if (P2point == 2) {
-                P2res = "Thirty";
-            }
-            if (P2point == 3) {
-                P2res = "Forty";
-            }
-
-            P1res = "Love";
-            score = P1res + "-" + P2res;
+        if (this.isPlayer1PointsHigher() || this.isPlayer2PointsHigher()) {
+            score = this.player1Score + "-" + this.player2Score;
         }
 
-        if (P1point > P2point && P1point < 4) {
-            if (P1point == 2) {
-                P1res = "Thirty";
-            }
-            if (P1point == 3) {
-                P1res = "Forty";
-            }
-            if (P2point == 1) {
-                P2res = "Fifteen";
-            }
-            if (P2point == 2) {
-                P2res = "Thirty";
-            }
-            score = P1res + "-" + P2res;
-        }
-        if (P2point > P1point && P2point < 4) {
-            if (P2point == 2) {
-                P2res = "Thirty";
-            }
-            if (P2point == 3) {
-                P2res = "Forty";
-            }
-            if (P1point == 1) {
-                P1res = "Fifteen";
-            }
-            if (P1point == 2) {
-                P1res = "Thirty";
-            }
-            score = P1res + "-" + P2res;
-        }
-
-        if (P1point > P2point && P2point >= 3) {
+        if (this.doesPlayer1HaveAdvantage()) {
             score = "Advantage player1";
         }
-
-        if (P2point > P1point && P1point >= 3) {
+        if (this.doesPlayer2HaveAdvantage()) {
             score = "Advantage player2";
         }
 
-        if (P1point >= 4 && P2point >= 0 && (P1point - P2point) >= 2) {
+        if (this.isPlayer1Winner()) {
             score = "Win for player1";
         }
-        if (P2point >= 4 && P1point >= 0 && (P2point - P1point) >= 2) {
+        if (this.isPlayer2Winner()) {
             score = "Win for player2";
         }
         return score;
+    }
+
+    private static String getPlayerScoreFromPoints(int playerPoints) {
+        String playerScore = "Love";
+        if (playerPoints > 0) {
+            if (playerPoints == 1) {
+                playerScore = "Fifteen";
+            }
+            if (playerPoints == 2) {
+                playerScore = "Thirty";
+            }
+            if (playerPoints == 3) {
+                playerScore = "Forty";
+            }
+        }
+        return playerScore;
+    }
+
+    private boolean isPlayersPointsEqual() {
+        return this.player1Points == this.player2Points;
+    }
+
+    private String getEqualScore() {
+        String score = "";
+        if (this.player1Points == 0) {
+            score = "Love";
+        }
+        if (this.player1Points == 1) {
+            score = "Fifteen";
+        }
+        if (this.player1Points == 2) {
+            score = "Thirty";
+        }
+        score += "-All";
+        if (this.player1Points >= 3) {
+            score = "Deuce";
+        }
+        return score;
+    }
+
+    private boolean isPlayer1PointsHigher() {
+        return this.player1Points > this.player2Points;
+    }
+
+    private boolean isPlayer2PointsHigher() {
+        return this.player2Points > this.player1Points;
+    }
+
+    private boolean doesPlayer1HaveAdvantage() {
+        return this.player1Points > this.player2Points && this.player2Points >= 3;
+    }
+
+    private boolean doesPlayer2HaveAdvantage() {
+        return this.player2Points > this.player1Points && this.player1Points >= 3;
+    }
+
+    private boolean isPlayer1Winner() {
+        return this.player1Points >= 4 && this.player2Points >= 0 && (this.player1Points - this.player2Points) >= 2;
+    }
+
+    private boolean isPlayer2Winner() {
+        return this.player2Points >= 4 && this.player1Points >= 0 && (this.player2Points - this.player1Points) >= 2;
     }
 }
