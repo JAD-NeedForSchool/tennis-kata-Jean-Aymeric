@@ -6,10 +6,10 @@ interface ResultProvider {
 
 public class TennisGame4 implements TennisGame {
 
+    private final String serverName;
+    private final String receiverName;
     private int serverScore;
     private int receiverScore;
-    private String serverName;
-    private String receiverName;
 
     public TennisGame4(String serverName, String receiverName) {
         this.serverName = serverName;
@@ -52,8 +52,6 @@ public class TennisGame4 implements TennisGame {
                 this, new DefaultResult(this)))))).getResult();
         return result.format();
     }
-
-
 }
 
 class TennisResult {
@@ -76,13 +74,20 @@ class TennisResult {
     }
 }
 
-class Deuce implements ResultProvider {
-    private final TennisGame4 game;
-    private final ResultProvider nextResult;
+abstract class AbstractResultProvider implements ResultProvider {
+    protected final TennisGame4 game;
+    protected final ResultProvider nextResult;
 
-    public Deuce(TennisGame4 game, ResultProvider nextResult) {
+    public AbstractResultProvider(TennisGame4 game, ResultProvider nextResult) {
         this.game = game;
         this.nextResult = nextResult;
+    }
+}
+
+class Deuce extends AbstractResultProvider {
+
+    public Deuce(TennisGame4 game, ResultProvider nextResult) {
+        super(game, nextResult);
     }
 
     @Override
@@ -98,13 +103,10 @@ class Deuce implements ResultProvider {
     }
 }
 
-class GameServer implements ResultProvider {
-    private final TennisGame4 game;
-    private final ResultProvider nextResult;
+class GameServer extends AbstractResultProvider {
 
-    public GameServer(TennisGame4 game, ResultProvider nextResult) {
-        this.game = game;
-        this.nextResult = nextResult;
+    public GameServer(final TennisGame4 game, final ResultProvider nextResult) {
+        super(game, nextResult);
     }
 
     @Override
@@ -120,13 +122,9 @@ class GameServer implements ResultProvider {
     }
 }
 
-class GameReceiver implements ResultProvider {
-    private final TennisGame4 game;
-    private final ResultProvider nextResult;
-
-    public GameReceiver(TennisGame4 game, ResultProvider nextResult) {
-        this.game = game;
-        this.nextResult = nextResult;
+class GameReceiver extends AbstractResultProvider {
+    public GameReceiver(final TennisGame4 game, final ResultProvider nextResult) {
+        super(game, nextResult);
     }
 
     @Override
@@ -142,13 +140,9 @@ class GameReceiver implements ResultProvider {
     }
 }
 
-class AdvantageServer implements ResultProvider {
-    private final TennisGame4 game;
-    private final ResultProvider nextResult;
-
-    public AdvantageServer(TennisGame4 game, ResultProvider nextResult) {
-        this.game = game;
-        this.nextResult = nextResult;
+class AdvantageServer extends AbstractResultProvider {
+    public AdvantageServer(final TennisGame4 game, final ResultProvider nextResult) {
+        super(game, nextResult);
     }
 
     @Override
@@ -164,14 +158,9 @@ class AdvantageServer implements ResultProvider {
     }
 }
 
-class AdvantageReceiver implements ResultProvider {
-
-    private final TennisGame4 game;
-    private final ResultProvider nextResult;
-
-    public AdvantageReceiver(TennisGame4 game, ResultProvider nextResult) {
-        this.game = game;
-        this.nextResult = nextResult;
+class AdvantageReceiver extends AbstractResultProvider {
+    public AdvantageReceiver(final TennisGame4 game, final ResultProvider nextResult) {
+        super(game, nextResult);
     }
 
     @Override
@@ -187,14 +176,12 @@ class AdvantageReceiver implements ResultProvider {
     }
 }
 
-class DefaultResult implements ResultProvider {
+class DefaultResult extends AbstractResultProvider {
 
     private static final String[] scores = {"Love", "Fifteen", "Thirty", "Forty"};
 
-    private final TennisGame4 game;
-
-    public DefaultResult(TennisGame4 game) {
-        this.game = game;
+    public DefaultResult(final TennisGame4 game) {
+        super(game, null);
     }
 
     @Override
