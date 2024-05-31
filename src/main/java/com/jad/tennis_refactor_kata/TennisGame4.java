@@ -69,9 +69,7 @@ public class TennisGame4 implements TennisGame {
         return this.serverScore >= 4 && (this.serverScore - this.receiverScore) >= 2;
     }
 
-    boolean isDeuce() {
-        return this.serverScore >= 3 && this.receiverScore >= 3 && (this.serverScore == this.receiverScore);
-    }
+
 }
 
 class TennisResult {
@@ -105,10 +103,14 @@ class Deuce implements ResultProvider {
 
     @Override
     public TennisResult getResult() {
-        if (this.game.isDeuce()) {
+        if (this.isDeuce()) {
             return new TennisResult("Deuce", "");
         }
         return this.nextResult.getResult();
+    }
+
+    boolean isDeuce() {
+        return (this.game.getServerScore() >= 3) && (this.game.getReceiverScore() >= 3) && (this.game.getServerScore() == this.game.getReceiverScore());
     }
 }
 
