@@ -16,19 +16,11 @@ public class TennisGame2 implements TennisGame {
 
     public void wonPoint(String playerName) {
         if (playerName.equals(this.player1Name)) {
-            this.incrementPlayer1Points();
+            this.player1Points++;
         }
         if (playerName.equals(this.player2Name)) {
-            this.incrementPlayer2Points();
+            this.player2Points++;
         }
-    }
-
-    public void incrementPlayer1Points() {
-        this.player1Points++;
-    }
-
-    public void incrementPlayer2Points() {
-        this.player2Points++;
     }
 
     public String getScore() {
@@ -40,11 +32,8 @@ public class TennisGame2 implements TennisGame {
             score = this.getEqualScore();
         }
 
-        if (this.isPlayer1PointsHigher()) {
-            score = this.getPlayer1Score() + "-" + this.player2Score;
-        }
-        if (this.isPlayer2PointsHigher()) {
-            score = this.player1Score + "-" + this.getPlayer2Score();
+        if (this.isPlayer1PointsHigher() || this.isPlayer2PointsHigher()) {
+            score = this.player1Score + "-" + this.player2Score;
         }
 
         if (this.doesPlayer1HaveAdvantage()) {
@@ -117,32 +106,8 @@ public class TennisGame2 implements TennisGame {
         return this.player1Points > this.player2Points;
     }
 
-    private String getPlayer1Score() {
-        String score;
-        if (this.player1Points == 2) {
-            this.player1Score = "Thirty";
-        }
-        if (this.player1Points == 3) {
-            this.player1Score = "Forty";
-        }
-        score = this.player1Score;
-        return score;
-    }
-
     private boolean isPlayer2PointsHigher() {
         return this.player2Points > this.player1Points;
-    }
-
-    private String getPlayer2Score() {
-        String score;
-        if (this.player2Points == 2) {
-            this.player2Score = "Thirty";
-        }
-        if (this.player2Points == 3) {
-            this.player2Score = "Forty";
-        }
-        score = this.player2Score;
-        return score;
     }
 
     private boolean doesPlayer1HaveAdvantage() {
