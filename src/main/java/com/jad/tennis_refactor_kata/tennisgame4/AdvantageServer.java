@@ -9,7 +9,8 @@ class AdvantageServer extends TennisResultProvider {
 
     @Override
     protected boolean isProvided() {
-        return this.getServerScore() >= 4 && (this.getServerScore() - this.getReceiverScore()) == 1;
+        return this.getServerScore() >= TennisResultProvider.ADVANTAGE_RULE_POINTS
+                && (this.getServerScore() - this.getReceiverScore()) == 1;
     }
 
     @Override

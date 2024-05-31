@@ -3,6 +3,8 @@ package com.jad.tennis_refactor_kata.tennisgame4;
 import com.jad.tennis_refactor_kata.TennisGame4;
 
 public abstract class TennisResultProvider implements ResultProvider {
+    static final int ADVANTAGE_RULE_POINTS = 4;
+
     private final TennisGame4 game;
     private final ResultProvider nextResult;
 

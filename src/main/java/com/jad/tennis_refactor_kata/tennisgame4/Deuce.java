@@ -9,7 +9,9 @@ class Deuce extends TennisResultProvider {
 
     @Override
     protected boolean isProvided() {
-        return (this.getServerScore() >= 3) && (this.getReceiverScore() >= 3) && (this.getServerScore() == this.getReceiverScore());
+        return (this.getServerScore() >= TennisResultProvider.ADVANTAGE_RULE_POINTS - 1)
+                && (this.getReceiverScore() >= TennisResultProvider.ADVANTAGE_RULE_POINTS - 1)
+                && (this.getServerScore() == this.getReceiverScore());
     }
 
     @Override

@@ -9,7 +9,8 @@ class GameReceiver extends TennisResultProvider {
 
     @Override
     protected boolean isProvided() {
-        return this.getReceiverScore() >= 4 && (this.getReceiverScore() - this.getServerScore()) >= 2;
+        return this.getReceiverScore() >= TennisResultProvider.ADVANTAGE_RULE_POINTS
+                && (this.getReceiverScore() - this.getServerScore()) >= 2;
     }
 
     @Override
