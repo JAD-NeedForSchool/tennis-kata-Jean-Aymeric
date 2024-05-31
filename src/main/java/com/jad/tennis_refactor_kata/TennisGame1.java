@@ -2,6 +2,7 @@ package com.jad.tennis_refactor_kata;
 
 
 public class TennisGame1 implements TennisGame {
+    public static final int POINTS_LIMIT_BEFORE_ADVANTAGE_RULE = 3;
 
     private final String player1Name;
     private final String player2Name;
@@ -28,47 +29,31 @@ public class TennisGame1 implements TennisGame {
         if (this.pointsPlayer1 == this.pointsPlayer2) {
             return this.getEqualScore();
         }
-        if (this.pointsPlayer1 > 3 || this.pointsPlayer2 > 3) {
-            return this.getAbove40Score();
+        if (this.pointsPlayer1 > TennisGame1.POINTS_LIMIT_BEFORE_ADVANTAGE_RULE
+                || this.pointsPlayer2 > TennisGame1.POINTS_LIMIT_BEFORE_ADVANTAGE_RULE) {
+            return this.getAboveAdvantageScore();
         }
-        return this.getLessThan40Score();
+        return this.getLessThanAdvantageScore();
     }
 
     private String getEqualScore() {
-        if (this.pointsPlayer1 < 3) {
+        if (this.pointsPlayer1 < TennisGame1.POINTS_LIMIT_BEFORE_ADVANTAGE_RULE) {
             return TennisGame1.pointsToScore(this.pointsPlayer1) + "-All";
         }
         return "Deuce";
     }
 
-    private String getAbove40Score() {
-        String score;
-        int minusResult = this.pointsPlayer1 - this.pointsPlayer2;
-        if (minusResult == 1) {
-            score = "Advantage player1";
-        } else if (minusResult == -1) {
-            score = "Advantage player2";
-        } else if (minusResult >= 2) {
-            score = "Win for player1";
-        } else {
-            score = "Win for player2";
+    private String getAboveAdvantageScore() {
+        if (this.isOnePlayerHasAdvantage()) {
+            return "Advantage " + this.getPlayerNameWhoHasMorePoints();
         }
-        return score;
+        return "Win for " + this.getPlayerNameWhoHasMorePoints();
     }
 
-    private String getLessThan40Score() {
-        String score = "";
-        int tempScore;
-        for (int i = 1; i < 3; i++) {
-            if (i == 1) {
-                tempScore = this.pointsPlayer1;
-            } else {
-                score += "-";
-                tempScore = this.pointsPlayer2;
-            }
-            score += TennisGame1.pointsToScore(tempScore);
-        }
-        return score;
+    private String getLessThanAdvantageScore() {
+        return TennisGame1.pointsToScore(this.pointsPlayer1)
+                + "-"
+                + TennisGame1.pointsToScore(this.pointsPlayer2);
     }
 
     private static String pointsToScore(final int points) {
@@ -79,5 +64,16 @@ public class TennisGame1 implements TennisGame {
             case 3 -> "Forty";
             default -> "";
         };
+    }
+
+    private boolean isOnePlayerHasAdvantage() {
+        return Math.abs(this.pointsPlayer1 - this.pointsPlayer2) == 1;
+    }
+
+    private String getPlayerNameWhoHasMorePoints() {
+        if (this.pointsPlayer1 > this.pointsPlayer2) {
+            return this.player1Name;
+        }
+        return this.player2Name;
     }
 }
